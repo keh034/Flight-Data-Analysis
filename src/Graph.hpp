@@ -24,10 +24,6 @@ public:
 
     ~Graph(void);
 
-    //MAYBE ADD SOME MORE METHODS HERE SO AS TO ANSWER QUESTIONS IN YOUR PA
-
-    /* YOU CAN MODIFY THIS IF YOU LIKE , in_filename : THE INPUT FILENAME */
-
     bool loadFromFile(const char* in_filename);
 
     vector<pair<int,int>> maxSpanning( int idSource );

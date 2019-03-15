@@ -12,7 +12,7 @@ using namespace std;
 void usage(char* program_name) {
     cerr << program_name << " called with incorrect arguments." << endl;
     cerr << "Usage: " << program_name
-       << " graph_filename output_filename"
+       << " graph_filename vertexNum output_filename"
        << endl;
     exit(-1);
 }
