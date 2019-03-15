@@ -1,0 +1,1 @@
+./build/maxspanning data/subset.txt 1 out
