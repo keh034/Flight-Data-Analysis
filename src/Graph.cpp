@@ -37,19 +37,24 @@ vector<pair<int,int>> Graph::maxSpanning( int idSource ) {
         pq.push( make_tuple( idSource, (start->adj)[i].first, (start->adj)[i].second ) );
     }
     
-    //Prim's Algo
+    //Prim's Algorithm
     tuple<int,int,int> curr;
     while( !pq.empty() ) {
+        //pop top of the PQ
         curr = pq.top();
         pq.pop();
+        //vTo is the vertex that the edge goes to
+        //Tuples are (vertex from, vertex to, weight)
         int vTo = get<1>(curr);
         Node* nodeTo = nodes.at(vTo);
+        //if visited, don't do anything in the iteration
         if( nodeTo->visited ) {
             continue;
-        } else {
+        } else { // if not visited, visit and set the prev element to the current vertex
             nodeTo->visited = true;
             nodeTo->prev = get<0>(curr);
         }
+        //push all neighbors into priority queue
         for( unsigned int j = 0; j < nodeTo->adj.size(); j++ ) {
             pq.push( make_tuple( vTo, (nodeTo->adj)[j].first, (nodeTo->adj)[j].second ) );
         }
@@ -58,6 +63,12 @@ vector<pair<int,int>> Graph::maxSpanning( int idSource ) {
     //loop through all nodes and output MST edges
     vector<pair<int,int>> ret;
     for( auto it = nodes.begin(); it != nodes.end(); ++it ) {
+        /*      This code will output a list of edges and their weights. This
+         *      can be used to manually check correctness for smaller sets.
+        for( unsigned int i = 0; i < it->second->adj.size(); i ++ ) {
+            cerr << it->first << "," << (it->second->adj)[i].first << ":" << (it->second->adj)[i].second << endl;
+        }
+        */
         if( it->second->prev != -1 ) {
             ret.push_back( make_pair( it->first, it->second->prev ) );
         }
@@ -108,7 +119,7 @@ bool Graph::loadFromFile(const char* in_filename) {
             n2 = nodes.at( id2 );
         }
 
-
+        //put id2 into n1's adj list or increment weight if already in
         pair<int,int>* curr = nullptr;
         //go through adjacency list to find a pointer to vertex edge is pointing
         for( unsigned int i = 0; i < (n1->adj).size(); i++ ) {
@@ -122,7 +133,7 @@ bool Graph::loadFromFile(const char* in_filename) {
             (n1->adj).push_back( make_pair(id2, 1) );
         }
         
-        
+        //put id1 into n2's adj list or increment weight if already in
         pair<int,int>* curr1 = nullptr;
         for( unsigned int i = 0; i < (n2->adj).size(); i++ ) {
             if( (n2->adj)[i].first == id1 ) {

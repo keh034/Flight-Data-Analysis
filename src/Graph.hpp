@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// used to reverse the operation so that the greatest cost is popped first
 class TuplePtrComp {
 public:
     bool operator()( tuple<int,int,int>& left, tuple<int,int,int>& right ) const {

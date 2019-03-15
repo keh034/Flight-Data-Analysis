@@ -26,12 +26,14 @@ int main(int argc, char* argv[]) {
     char* output_filename = argv[3];
     int start = stoi(argv[2]);
 
+    //load graph from file
     Graph* g = new Graph();
     g->loadFromFile( graph_filename ); 
     
     ofstream outfile( output_filename );
-    
+    //retrieve vector containing edges the represent the maximum spanning tree
     vector<pair<int,int>> maxSpan= g->maxSpanning(start);
+    //send out all edges into outFile
     for( pair<int,int> x : maxSpan ) {
         outfile << x.first << " " << x.second << endl;
     }
