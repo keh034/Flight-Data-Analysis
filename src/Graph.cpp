@@ -21,24 +21,27 @@ Graph::~Graph(void) {
 
 
 vector<pair<int,int>> Graph::maxSpanning( int idSource ) {
+    //set all nodes to false, -1
     for( auto it = nodes.begin(); it != nodes.end(); ++it ) {
         it->second->visited = false;
         it->second->prev = -1;
     }
 
+    //retrieve starting node vertex
     Node* start = nodes.at( idSource );
     start->visited = true;
 
+    //start pq and push in neighbors of start
     priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, TuplePtrComp> pq;
     for( unsigned int i = 0; i < start->adj.size(); i++ ) {
         pq.push( make_tuple( idSource, (start->adj)[i].first, (start->adj)[i].second ) );
     }
     
+    //Prim's Algo
     tuple<int,int,int> curr;
     while( !pq.empty() ) {
         curr = pq.top();
         pq.pop();
-        //cerr << get<0>(curr) << "," << get<1>(curr) << "," << get<2>(curr) << endl;
         int vTo = get<1>(curr);
         Node* nodeTo = nodes.at(vTo);
         if( nodeTo->visited ) {
@@ -48,18 +51,21 @@ vector<pair<int,int>> Graph::maxSpanning( int idSource ) {
             nodeTo->prev = get<0>(curr);
         }
         for( unsigned int j = 0; j < nodeTo->adj.size(); j++ ) {
-            //cerr << vTo << " " <<(nodeTo->adj)[j].first << " " << (nodeTo->adj)[j].second << endl;
             pq.push( make_tuple( vTo, (nodeTo->adj)[j].first, (nodeTo->adj)[j].second ) );
         }
     }
 
+    //loop through all nodes and output MST edges
     vector<pair<int,int>> ret;
     for( auto it = nodes.begin(); it != nodes.end(); ++it ) {
-        //cerr << it->first << " " << it->second->prev << endl;
+        for( unsigned int i = 0; i < (it->second->adj).size(); i++ ) {
+            cerr << it->first << "," << (it->second->adj)[i].first << ":" << (it->second->adj)[i].second << endl;
+        }
         if( it->second->prev != -1 ) {
             ret.push_back( make_pair( it->first, it->second->prev ) );
         }
     }
+
     return ret;
 }
 
