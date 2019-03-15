@@ -58,9 +58,6 @@ vector<pair<int,int>> Graph::maxSpanning( int idSource ) {
     //loop through all nodes and output MST edges
     vector<pair<int,int>> ret;
     for( auto it = nodes.begin(); it != nodes.end(); ++it ) {
-        for( unsigned int i = 0; i < (it->second->adj).size(); i++ ) {
-            cerr << it->first << "," << (it->second->adj)[i].first << ":" << (it->second->adj)[i].second << endl;
-        }
         if( it->second->prev != -1 ) {
             ret.push_back( make_pair( it->first, it->second->prev ) );
         }
